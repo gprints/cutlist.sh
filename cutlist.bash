@@ -1,5 +1,7 @@
 #!/usr/local/bin/bash
 # cutlist.sh
+# Gestest unter FreeBSD 12.2 mit avidemux-2.7.6 aus den Ports
+
 Stand="2020-11-27"
 
 # Konfiguration
@@ -24,7 +26,7 @@ fi
 
 # Funktionen
 checkSystem () {     # Ueberpruefe ob alle noetigen Programme installiert sind
-for tool in dialog mplayer curl; do
+for tool in dialog curl; do
  if ! type $tool > /dev/null 2>/dev/null ; then
   echo -e "\n$tool ist nicht verfuegbar.\nBitte installiere es!"
   exit 1
@@ -87,7 +89,7 @@ adm = Avidemux()
 adm.loadVideo("/$1");
 ADMP
 
-for part in $nextfiles ; do        # Für alle Parameter das Skript durchlaufen
+for part in $nextfiles ; do        # FÃ¼r alle Parameter das Skript durchlaufen
  echo "adm.append(\"$PWD/$part\");" >> $2
 done
 
@@ -142,7 +144,7 @@ fi
 
 FPS=$(echo "$grabFPS*0.001" | bc)
            # Bewertungs-Dialog
-dialog --menu "Bewertung" 14 72 7 0 "[0] Dummy oder keine Cutlist" 1 "[1] Anfang und Ende grob geschnitten" 2 "[2] Anfang und Ende halbwegs genau geschnitten" 3 "[3] Schnitt ist annehmbar, Werbung entfernt" 4 "[4] doppelte Szenen nicht entfernt oder schönere Schnitte mögl." 5 "[5] Saemtliches unerwuenschtes Material framegenau entfernt" 2> .cutrating
+dialog --menu "Bewertung" 14 72 7 0 "[0] Dummy oder keine Cutlist" 1 "[1] Anfang und Ende grob geschnitten" 2 "[2] Anfang und Ende halbwegs genau geschnitten" 3 "[3] Schnitt ist annehmbar, Werbung entfernt" 4 "[4] doppelte Szenen nicht entfernt oder schÃ¶nere Schnitte mÃ¶gl." 5 "[5] Saemtliches unerwuenschtes Material framegenau entfernt" 2> .cutrating
 if [ $? -eq 1 ] ; then         # Skript_Ende bei Abbruch
  exit 1
 fi
@@ -226,7 +228,7 @@ if [ $Cutlist_hochladen_Frage -eq 1 ] ; then
   Cutlist_diesmal_nicht_loeschen=1
  fi
 else           # Upload-Frage = 0
- uploadCutlist "$cutlist" $userid       # standardmäßig uploaden
+ uploadCutlist "$cutlist" $userid       # standardmÃ¤ÃŸig uploaden
 fi
 
 if [ $Loeschen_der_fertigen_Cutlist -eq 1 ] && [ $Cutlist_diesmal_nicht_loeschen -ne 1 ] ; then
@@ -249,7 +251,7 @@ Moegliche Optionen:
 -dfs Cutlist vom Server loeschen
         z.B.: cutlist.sh -dfs http://cutlist.at/getfile.php?id=123456
         oder  cutlist.sh -dfs 123456
--url persöhnliche Cutlist.at URL speichern
+-url persÃ¶hnliche Cutlist.at URL speichern
         (-url http://www.cutlist.at/user/0123456789abcdef
         ohne letzten Schraegstrich ! )
 
@@ -268,7 +270,7 @@ while [ "$1" != "${1#-}" ] ; do    # solange der naechste parameter mit "-" anfa
 done
 checkSystem 1      # Teste das System
 #wahl=${@:-*.avi}
-#for auswahl in "$wahl" ; do    # Für alle Parameter das Skript durchlaufen
+#for auswahl in "$wahl" ; do    # FÃ¼r alle Parameter das Skript durchlaufen
 #schneiden "$auswahl"
 #done
 if [ "_$1" == "_" -o ! -r "$1" ] ; then
